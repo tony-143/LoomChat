@@ -1,0 +1,45 @@
+a{
+    text-decoration: none;
+    cursor: pointer;
+}
+.benefits-section {
+    background-image: url('https://st1.zoom.us/fe-static/fe-signup-login-active/img/banner-step-2.4b72ef61.png'); /* Replace with the actual image URL */
+    background-size: cover;
+    background-position: top center;
+    border-radius: 40px;
+}
+.pointer{
+    cursor: pointer;
+}
+.text-select-none{
+    user-select: none;
+}
+
+.home-left{
+    width: 999px;
+    /* color: red; */
+}
+/* .hover{
+    background-color: #414345;
+    border-radius: 20px;
+    padding: 0.5em 0.5em 0.5em;
+    color: white;
+    font-size: '50px';
+    
+} */
+
+@media screen and (min-width: 1000px) {
+    .home-left {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* color: rgba(0, 0, 0, 0.776); */
+    }
+}
+
+#localVideo {
+    width: 100%;   /* Set the video to take up full width */
+    height: auto;  /* Maintain aspect ratio */
+    border: 1px solid black; /* Optional border */
+  }
