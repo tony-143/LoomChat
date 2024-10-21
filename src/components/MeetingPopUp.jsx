@@ -81,10 +81,10 @@ class Popup extends React.Component {
                     errorMessage: result.error.detail ,
                     nameErrorMessage: result.error ? result.error.error : ''
                 })
-                console.log(result)
+                // console.log(result)
             }
             else {
-                console.log(result)
+                // console.log(result)
                 this.setState({
                     navigate:true
                 })

@@ -14,8 +14,8 @@ class Home extends Component {
         this.state = {
             redirect: false,
             joinpage: false,
-            id:null,
-            meetingCode:null,
+            id: null,
+            meetingCode: null,
         }
         this.joining_code = React.createRef()
         this.handleCreateMeeting = this.handleCreateMeeting.bind(this);
@@ -36,16 +36,19 @@ class Home extends Component {
                 })
             }
         }
-        
+
     }
 
     async handleCreateMeeting() {
-        const result = await fetchApi('meetings', 'POST')
-        const res = await fetchApi('getuserdetails', 'GET')
-        console.log(result)
-        console.log(res)
-        sessionStorage.setItem('meetingId', result.id)
-        this.setState({id:result.id,name:res.details.name,meetingCode:result.meeting_code, redirect: true });
+        if (!localStorage.getItem('access')) alert('please login');
+        else {
+            const result = await fetchApi('meetings', 'POST')
+            const res = await fetchApi('getuserdetails', 'GET')
+            // console.log(result)
+            // console.log(res)
+            sessionStorage.setItem('meetingId', result.id)
+            this.setState({ id: result.id, name: res.details.name, meetingCode: result.meeting_code, redirect: true });
+        }
     }
 
     async handleJoinMeeting() {

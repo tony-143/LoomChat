@@ -36,7 +36,7 @@ export const RefreshTokenObtain = async (query, method, data = null) => {
         if (response.status == 401 && response.statusText == 'Unauthorized') {
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
-            alert('plase login');
+            alert('please login');
         }
         if (response.ok) {
             const result = await response.json();

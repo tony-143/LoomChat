@@ -34,7 +34,7 @@ class ParticipantsBox extends Component {
         if (this.props.meetingId) {
             const users = async () => {
                 const result = await fetchApi(`meeting/${this.props.meetingId}`, 'GET');
-                console.log(result);
+                // console.log(result);
                 this.setState({ participants: result });
                 
             };
@@ -76,7 +76,7 @@ class ParticipantsBox extends Component {
 
     async handleAcceptUser(name) {
         const result = await fetchApi('join', 'PATCH', { meeting_code: this.props.meetingcode, name: name })
-        console.log(result);
+        // console.log(result);
         // console.log(this.props.socket);
         this.props.socket.send(JSON.stringify({ type: 'join_approval', user: name }));
         this.props.socket.onmessage = (e) => console.log(e.data)

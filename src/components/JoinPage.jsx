@@ -7,7 +7,7 @@ import { RateReview, Security, WidthFull } from "@mui/icons-material";
 export class JoinPage extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props); 
         this.state = {
             messages: [],
             socket: null,
@@ -42,7 +42,7 @@ export class JoinPage extends React.Component {
         }
 
         socket.onmessage = (e) => {
-            console.log(e.data)
+            // console.log(e.data)
             const data = JSON.parse(e.data)
 
             if (data.type === "join_approved") {
@@ -51,6 +51,13 @@ export class JoinPage extends React.Component {
             }
         }
         this.setState({ socket: socket, meetingCode: meetingCode, name: name });
+    }
+
+    componentWillUnmount() {
+        // console.log(nextProps)
+        if(this.state.socket ) {
+            this.state.socket.close();
+        }
     }
 
     handleAskJoinBtn() {
@@ -72,10 +79,13 @@ export class JoinPage extends React.Component {
         this.setState({ navigate: !this.state.navigate })
     }
 
-    handleRatingChange(event, newValue) {
+    async handleRatingChange(event, newValue) {
         this.setState({ ratingValue: newValue });
-        console.log(`Rating selected: ${newValue}`);
-        // You can also send the rating value to the server here if needed
+        const ans =await fetchApi('rating','POST',{name:this.state.name,rating:newValue})
+        if(ans.success){
+            alert('thankyou for submitting')
+            this.setState({ navigateHome: true });
+        }
     }
 
     render() {
@@ -176,12 +186,12 @@ export class JoinPage extends React.Component {
 
                                         <div>
                                             <div className="mt-5 mx-auto">
-                                                <div className="d-flex text-left py-4 align-items-center border gap-4">
+                                                <div className="d-flex border-secondary shadow rounded px-2 text-left py-4 align-items-center border gap-4">
                                                     <img src="" alt="" />
                                                     <Security className="fs-1" />
-                                                    <div className="">
-                                                        <h4>Your meeting is safe</h4>
-                                                        <p>No one can join a meeting unless invited or admitted by the host</p>
+                                                    <div className="text-left w-100 d-flex flex-column">
+                                                        <h4 className="me-auto" > Your meeting is safe</h4>
+                                                        <p className="me-auto text-left"  >No one can join a meeting unless invited or admitted by the host</p>
                                                     </div>
                                                 </div>
                                             </div>
