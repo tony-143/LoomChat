@@ -46,3 +46,7 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message by {self.user or self.anonymous_user.name} at {self.timestamp}"
+
+class Rating(models.Model):
+    name = models.CharField(max_length=255,blank=True,null=True)
+    rating = models.IntegerField()

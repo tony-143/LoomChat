@@ -24,6 +24,8 @@ urlpatterns=[
     path('meeting/id/', getMeetingIdView.as_view(),),
     path('check/',CheckJoinedUserView.as_view(),),
     path('meeting/<int:meeting_id>/', GetMeetingDetailsView.as_view(),),
+    path('deleteuser',DeleteUserFromMeeting.as_view(),),
+    path('rating/',RatingView.as_view(),),
 ]
 
 if settings.DEBUG:

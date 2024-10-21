@@ -177,7 +177,28 @@ class DeleteMeetingUsersView(APIView):
                 return Response({"success": f"User '{name}' removed from the meeting."}, status=status.HTTP_200_OK)
             except Participants.DoesNotExist:
                 return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
-
+            
+class DeleteUserFromMeeting(APIView):
+    def delete(self, request):
+        name = request.data.get('name')
+        meeting_code = request.data.get('meeting_code')
+        if not name or not meeting_code:
+            return Response({"error": "meeting code and name required to delete"},status=status.HTTP_404_NOT_FOUND)
+        meeting = get_object_or_404(Meeting, meeting_code=meeting_code)
+        try:
+            user = AnonymousParticipant.objects.get(name=name, meeting=meeting)
+            meeting.anonymous_participants.remove(user)
+            user.delete()
+            return Response({"success": f"User '{name}' removed from the meeting."}, status=status.HTTP_200_OK)
+        except AnonymousParticipant.DoesNotExist:
+            try:
+                user = Participants.objects.get(name=name, meeting=meeting)
+                meeting.participants.remove(user)
+                user.delete()
+                return Response({"success": f"User '{name}' removed from the meeting."}, status=status.HTTP_200_OK)
+            except Participants.DoesNotExist:
+                return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+            
 class getMeetingIdView(APIView):
     def post(self, request):
         meeting_code = request.data.get('meeting_code')
@@ -263,3 +284,17 @@ class GetMessageView(generics.ListAPIView):
         # data = get_object_or_404(Message, meeting_id = meeting_id)
         
         return Message.objects.filter(meeting_id=meeting_id)
+
+class RatingView(APIView):
+    def post(self, request):
+        serializer = RatingSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"success":serializer.data},status=status.HTTP_200_OK)
+        return Response({"error": serializer.errors},status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request, *args, **kwargs):
+        data = Rating.objects.all()
+        # Pass the QuerySet directly to the serializer
+        serializer = RatingSerializer(data, many=True)  # No need to use 'data='
+        return Response({"success": serializer.data}, status=status.HTTP_200_OK)

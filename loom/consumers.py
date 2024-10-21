@@ -43,7 +43,7 @@ class MeetingChatConsumer(AsyncWebsocketConsumer):
         message_type = text_data_json.get('type', 'message')
         
         
-        if message_type == 'offer' or message_type == 'answer' or message_type == 'ice-candidate':
+        if message_type == 'offer' or message_type == 'answer' or message_type == 'ice-candidate' or message_type == 'new-user' or message_type == 'video-state-change' or message_type == 'audio-state-change' or message_type == 'user-removed':
             await self.channel_layer.group_send(
                 self.meeting_group_name,
                 {
@@ -134,7 +134,7 @@ class MeetingChatConsumer(AsyncWebsocketConsumer):
 
     async def meeting_join_approved(self, event):
         user = event['user']
-        print(user,'-------')
+        # print(user,'-------')
         if self.user == user:
             await self.send(text_data=json.dumps({
                 'type': 'join_approved',

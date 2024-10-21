@@ -191,3 +191,7 @@ class PasswordSetSerializer(serializers.Serializer):
         
         data["sucess"]="paswrod seted"
         return data
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields ='__all__'
