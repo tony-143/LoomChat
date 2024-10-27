@@ -26,6 +26,7 @@ urlpatterns=[
     path('meeting/<int:meeting_id>/', GetMeetingDetailsView.as_view(),),
     path('deleteuser',DeleteUserFromMeeting.as_view(),),
     path('rating/',RatingView.as_view(),),
+    path('auth/google/login/token/', GoogleLoginTokenView.as_view(), name='google-login-token'),
 ]
 
 if settings.DEBUG:

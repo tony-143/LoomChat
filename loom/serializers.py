@@ -76,30 +76,6 @@ class UserLoginSerializer(serializers.Serializer):
             "refresh":str(refresh),
             "access":str(refresh.access_token)
         }
-        
-class MeetingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Meeting
-        fields = ['id', 'meeting_code', 'start_time', 'end_time', 'participants','anonymous_participants']
-        read_only_fields = ['id', 'meeting_code', 'start_time', 'host']
-
-    def create(self, validated_data):
-        validated_data['host'] = self.context['request'].user
-        return super().create(validated_data)
-
-class JoinMeetingSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=50,required=True)
-    meeting_code = serializers.CharField()
-
-class MessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Message
-        fields = '__all__'
-
-class GetMeetingDetailsSerializer(serializers.ModelSerializer): 
-    class Meta:
-        model = Participants
-        fields = '__all__'
 
 class VerifyOtpSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
@@ -191,6 +167,31 @@ class PasswordSetSerializer(serializers.Serializer):
         
         data["sucess"]="paswrod seted"
         return data
+    
+class MeetingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Meeting
+        fields = ['id', 'meeting_code', 'start_time', 'end_time', 'participants','anonymous_participants']
+        read_only_fields = ['id', 'meeting_code', 'start_time', 'host']
+
+    def create(self, validated_data):
+        validated_data['host'] = self.context['request'].user
+        return super().create(validated_data)
+
+class JoinMeetingSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=50,required=True)
+    meeting_code = serializers.CharField()
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'
+
+class GetMeetingDetailsSerializer(serializers.ModelSerializer): 
+    class Meta:
+        model = Participants
+        fields = '__all__'
+        
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating

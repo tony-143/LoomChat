@@ -9,8 +9,58 @@ from rest_framework.exceptions import NotFound
 from rest_framework.viewsets import *
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.http import JsonResponse
+import requests
 import json
 
+Userr = get_user_model()
+
+class GoogleLoginTokenView(APIView):
+    def post(self, request):
+        token = request.data.get('token')
+        if not token:
+            return JsonResponse({'error': 'Token is required'}, status=400)
+
+        # Verify the token with Google
+        response = requests.get(
+            f"https://oauth2.googleapis.com/tokeninfo?id_token={token}"
+        )
+
+        if response.status_code != 200:
+            return JsonResponse({'error': 'Invalid token'}, status=400)
+
+        user_info = response.json()
+        email = user_info.get('email')
+        name = user_info.get('name')
+        picture = user_info.get('picture')
+
+        # Check if user exists
+        user, created = Userr.objects.get_or_create(email='loom-'+email)
+        
+        # print(email)
+        
+        if created:
+            # If the user was created, you can set additional fields here
+            # user.username = email  # or generate a username
+            user.first_name =name
+            user.is_active = True
+            user.save()
+
+        # You can also create JWT token for the user here
+        # For example:
+        # token = your_jwt_creation_function(user)
+        refresh = RefreshToken.for_user(user)
+        
+        return JsonResponse({
+            'id': user.id,
+            'email': user.email,
+            'name': user.first_name,  # Or other fields
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        })
+        
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
 
