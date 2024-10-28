@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-01(no5r2i@8qlgw-g^251dc@0u7gegxv-n%btcrwmns-h+j9=*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','tony143.pythonanywhere.com']
 
 import logging
 
@@ -236,12 +236,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'loomchatdatabase',
         'USER': 'root',
-        'PASSWORD': 'mysql',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'PASSWORD': 'oIuE09w9ahZHs2BgG5cxTlEKDxB4CWnF',
+        'HOST': 'dpg-csfoseogph6c73f758e0-a',
+        'PORT': '5432',
     }
 }
 
