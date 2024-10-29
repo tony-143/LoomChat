@@ -152,10 +152,10 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 ASGI_APPLICATION = "todo.asgi.application"
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': ["redis://red-csfp92ogph6c73f7eijg:6379"],  # Fetches Redis URL from environment
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("red-csfp92ogph6c73f7eijg", 6379)],
         },
     },
 }
