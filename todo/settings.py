@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-01(no5r2i@8qlgw-g^251dc@0u7gegxv-n%btcrwmns-h+j9=*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','tony143.pythonanywhere.com']
+ALLOWED_HOSTS = ['loomchat.onrender.com', 'localhost', '127.0.0.1']
 
 import logging
 
